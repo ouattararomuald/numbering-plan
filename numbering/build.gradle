@@ -1,0 +1,35 @@
+plugins {
+  id 'java-library'
+  id 'org.jetbrains.kotlin.jvm'
+}
+
+dependencies {
+  implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
+  testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0-M1'
+}
+
+test {
+  useJUnitPlatform()
+}
+
+compileKotlin {
+  sourceCompatibility = JavaVersion.VERSION_1_8
+  targetCompatibility = JavaVersion.VERSION_1_8
+
+  kotlinOptions {
+    freeCompilerArgs = ["-XXLanguage:+InlineClasses"]
+    jvmTarget = "1.8"
+  }
+}
+
+compileTestKotlin {
+  sourceCompatibility = JavaVersion.VERSION_1_8
+  targetCompatibility = JavaVersion.VERSION_1_8
+
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

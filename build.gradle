@@ -1,39 +1,35 @@
-plugins {
-  id 'org.jetbrains.kotlin.jvm' version '1.4.21'
-}
+buildscript {
 
-group 'com.ouattararomuald'
-version '1.0-SNAPSHOT'
+  ext.versions = [
+    'kotlin': '1.4.21',
+  ]
 
-repositories {
-  mavenCentral()
-}
+  ext.deps = []
 
-test {
-  useJUnitPlatform()
-}
+  repositories {
+    mavenCentral()
+  }
 
-dependencies {
-  implementation "org.jetbrains.kotlin:kotlin-stdlib"
-
-  testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0-M1'
-}
-
-compileKotlin {
-  sourceCompatibility = JavaVersion.VERSION_1_8
-  targetCompatibility = JavaVersion.VERSION_1_8
-
-  kotlinOptions {
-    freeCompilerArgs = ["-XXLanguage:+InlineClasses"]
-    jvmTarget = "1.8"
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
   }
 }
 
-compileTestKotlin {
-  sourceCompatibility = JavaVersion.VERSION_1_8
-  targetCompatibility = JavaVersion.VERSION_1_8
-
-  kotlinOptions {
-    jvmTarget = "1.8"
+allprojects {
+  if (JavaVersion.current().isJava8Compatible()) {
+    tasks.withType(Javadoc) {
+      options.addStringOption('Xdoclint:none', '-quiet')
+    }
   }
+}
+
+subprojects {
+  repositories {
+    mavenCentral()
+  }
+
+  tasks.withType(Javadoc).all { enabled = false } // FIXME: build fails without this.
+
+  group = GROUP
+  version = VERSION_NAME
 }
