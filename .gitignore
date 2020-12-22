@@ -2,6 +2,7 @@
 *.iml
 
 .idea/
-.build/
+build/
 .gradle/
 .out/
+out/
