@@ -6,10 +6,60 @@
 
 This library helps you migrate exiting phone numbers format to new phone number formats.
 
-## Ivory coast numbering plan
+## Usage
 
-- [Plan de numérotation](https://apanews.net/news/cote-divoire-les-numeros-de-telephone-passent-de-8-a-10-chiffres-a-partir-du-31-janvier-2021)
-- [FAQ ARTCI](https://www.artci.ci/index.php/foire-aux-questions/367-foire-aux-questions-sur-la-portabilite-des-numeros-mobiles.html)
+First you start by defining the migration rules for you country
+
+```kotlin
+val ivoryCoastPlanFactory: CountryPlan = CountryPlan.Builder()
+    .setOldPhoneNumberSize(8)
+    .setInternationalCallingCode("225")
+    .setDigitMapperPosition(Position.START) // Position.END
+    .setMigrationType(MigrationType.PREFIX) // MigrationType.POSTFIX
+    .setPrefixesMapper(
+      mapOf(
+        "07" to "07", // Orange
+        "08" to "07", // eg: 08 XX XX XX => 07 08 XX XX XX (if MigrationType.prefix is used) => 08 XX XX XX 07 (if MigrationType.postfix is used)
+        "09" to "07",
+        "04" to "05", // MTN
+        "05" to "05",
+        "06" to "05",
+        "01" to "01", // MOOV
+        "02" to "01",
+        "03" to "01"
+      )
+    ).build()
+```
+
+Then you pass those rules to `NumberingPlan` and you can start the migration:
+
+```kotlin
+val ivoryCoastPlanFactory: CountryPlan = ...
+val numberingPlan = NumberingPlan(ivoryCoastPlanFactory)
+val newPhoneNumbers = numberingPlan.migrate(mapOf(
+  "userId-1" to "08060709",
+  "userId-2" to "06060709",
+  "userId-3" to "03060701",
+  "userId-4" to " 03 060 701 ",
+  "userId-5" to " 03-060-701",
+  "userId-6" to "zezae/03-060-701",
+  "userId-7" to ")'.03-060-701"
+))
+```
+
+After the migration `newPhoneNumbers` will be equal to:
+
+```kotlin
+mapOf(
+  "userId-1" to "002250806070907",
+  "userId-2" to "002250606070905",
+  "userId-3" to "002250306070101",
+  "userId-4" to "002250306070101",
+  "userId-5" to "002250306070101"
+)
+```
+
+Invalid phone numbers are removed.
 
 ## Download
 

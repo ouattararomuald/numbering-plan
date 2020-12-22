@@ -6,10 +6,54 @@ class NumberingPlan(val countryPlan: CountryPlan) {
     "^(\\+|0{2})?(?<icc>${countryPlan.internationalCallingCode})(?<phoneNumber>\\d{${countryPlan.oldPhoneNumberSize}})".toPattern()
 
   /**
-   * Migrates the given [phoneNumbers] to the new numbering plan.
+   * Migrates the valid [phoneNumbers] to the new numbering plan.
+   *
+   * example:
+   *
+   * ```kotlin
+   * val ivoryCoastPlanFactory: CountryPlan = CountryPlan.Builder()
+   *   .setOldPhoneNumberSize(8)
+   *   .setInternationalCallingCode("225")
+   *   .setMigrationType(MigrationType.PREFIX)
+   *   .setDigitMapperPosition(Position.START)
+   *   .setPrefixesMapper(mapOf(
+   *     "07" to "07",
+   *     "08" to "07",
+   *     "09" to "07",
+   *     "04" to "05",
+   *     "05" to "05",
+   *     "06" to "05",
+   *     "01" to "01",
+   *     "02" to "01",
+   *     "03" to "01"
+   *   )).build()
+   * val numberingPlan = NumberingPlan(ivoryCoastPlanFactory)
+   * val formattedPhoneNumbers = numberingPlan.migrate(mapOf(
+   *   "userId-1" to "08060709",
+   *   "userId-2" to "06060709",
+   *   "userId-3" to "03060701",
+   *   "userId-4" to " 03 060 701 ",
+   *   "userId-5" to " 03-060-701",
+   *   "userId-6" to "zezae/03-060-701",
+   *   "userId-7" to ")'.03-060-701"
+   * ))
+   * ```
+   *
+   * After the migration `formattedPhoneNumbers` will be equal to:
+   * ```kotlin
+   * mapOf(
+   *   "userId-1" to "002250806070907",
+   *   "userId-2" to "002250606070905",
+   *   "userId-3" to "002250306070101",
+   *   "userId-4" to "002250306070101",
+   *   "userId-5" to "002250306070101"
+   * )
+   * ```
+   *
+   * Invalid phone numbers will not pass the migration.
    *
    * @param phoneNumbers key-values list of phone numbers to migrate.
-   * @param Key type of key associated with each phone number.
+   * @param Key type of the key associated with each phone number.
    *
    * @throws MigrationException when fails to extract International Calling Code.
    * @throws MigrationException when fails to extract the Phone Number.
@@ -17,12 +61,14 @@ class NumberingPlan(val countryPlan: CountryPlan) {
    * @return the phone numbers whose migration was successful.
    */
   @Throws(MigrationException::class)
-  fun <Key> migrate(phoneNumbers: Map<Key, PhoneNumber>): Map<Key, PhoneNumber> {
-    val outputPhoneNumbers: MutableMap<Key, PhoneNumber> = mutableMapOf()
-    phoneNumbers.forEach { (key, givenPhoneNumber) ->
+  fun <Key> migrate(phoneNumbers: Map<Key, String>): Map<Key, String> {
+    val adaptedPhoneNumbers = phoneNumbers.map { it.key to PhoneNumber(it.value) }
+
+    val outputPhoneNumbers: MutableMap<Key, String> = mutableMapOf()
+    adaptedPhoneNumbers.forEach { (key, givenPhoneNumber) ->
       val cleanedPhoneNumber = cleanPhoneNumber(givenPhoneNumber)
       if (cleanedPhoneNumber.isValidPhoneNumber() && cleanedPhoneNumber.isValidLength()) {
-        outputPhoneNumbers[key] = formatPhoneNumber(cleanedPhoneNumber)
+        outputPhoneNumbers[key] = formatPhoneNumber(cleanedPhoneNumber).value
       }
     }
     return outputPhoneNumbers
