@@ -81,6 +81,13 @@ or Maven:
 
 Snapshots of the development version are available in [Sonatype's snapshots repository](https://oss.sonatype.org/content/repositories/snapshots/).
 
+## Known limitations
+
+- [x] Migrates only valid phone numbers.
+- [x] Can add new digits before or after the old phone number. We decided to not handle in between insertions.
+- [x] Can only look for digits to replace at the start or the end of old phone numbers. We think this shouldn’t be a problem (generally) but as of now we decided to not handle such cases.
+- [x] It is synchronous. This is a choice that will let you pick the any library you want to handle async tasks.
+
 ## Contributing
 
 Contributions you say? Yes please!
