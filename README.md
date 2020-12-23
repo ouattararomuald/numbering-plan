@@ -51,11 +51,11 @@ After the migration `newPhoneNumbers` will be equal to:
 
 ```kotlin
 mapOf(
-  "userId-1" to "002250806070907",
-  "userId-2" to "002250606070905",
-  "userId-3" to "002250306070101",
-  "userId-4" to "002250306070101",
-  "userId-5" to "002250306070101"
+  "userId-1" to "002250708060709",
+  "userId-2" to "002250506060709",
+  "userId-3" to "002250103060701",
+  "userId-4" to "002250103060701",
+  "userId-5" to "002250103060701"
 )
 ```
 
