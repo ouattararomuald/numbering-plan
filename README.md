@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/ouattararomuald/numbering-plan/tree/master.svg?style=shield)](https://circleci.com/gh/ouattararomuald/numbering-plan/tree/master)
 [![](https://img.shields.io/badge/code--style-square-green.svg)](https://github.com/square/java-code-styles)
 [![](https://img.shields.io/maven-central/v/com.ouattararomuald/numbering.svg)](https://search.maven.org/search?q=g:com.ouattararomuald%20a:numbering)
 [![](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.ouattararomuald/numbering.svg)](https://oss.sonatype.org/content/repositories/snapshots/)
