@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## [1.0.1]
+## [1.0.1] - 2021-01-02
 **Breaking change**:
 - Migration of multiple phone numbers per user ID.
 
