@@ -29,24 +29,24 @@ class NumberingPlan(val countryPlan: CountryPlan) {
    *   )).build()
    * val numberingPlan = NumberingPlan(ivoryCoastPlanFactory)
    * val formattedPhoneNumbers = numberingPlan.migrate(mapOf(
-   *   "userId-1" to "08060709",
-   *   "userId-2" to "06060709",
-   *   "userId-3" to "03060701",
-   *   "userId-4" to " 03 060 701 ",
-   *   "userId-5" to " 03-060-701",
-   *   "userId-6" to "zezae/03-060-701",
-   *   "userId-7" to ")'.03-060-701"
+   *   "userId-1" to listOf("08060709"),
+   *   "userId-2" to listOf("06060709"),
+   *   "userId-3" to listOf("03060701"),
+   *   "userId-4" to listOf(" 03 060 701 "),
+   *   "userId-5" to listOf(" 03-060-701"),
+   *   "userId-6" to listOf("zezae/03-060-701"),
+   *   "userId-7" to listOf(")'.03-060-701")
    * ))
    * ```
    *
    * After the migration `formattedPhoneNumbers` will be equal to:
    * ```kotlin
    * mapOf(
-   *   "userId-1" to "002250806070907",
-   *   "userId-2" to "002250606070905",
-   *   "userId-3" to "002250306070101",
-   *   "userId-4" to "002250306070101",
-   *   "userId-5" to "002250306070101"
+   *   "userId-1" to listOf("002250806070907"),
+   *   "userId-2" to listOf("002250606070905"),
+   *   "userId-3" to listOf("002250306070101"),
+   *   "userId-4" to listOf("002250306070101"),
+   *   "userId-5" to listOf("002250306070101")
    * )
    * ```
    *
@@ -61,14 +61,20 @@ class NumberingPlan(val countryPlan: CountryPlan) {
    * @return the phone numbers whose migration was successful.
    */
   @Throws(MigrationException::class)
-  fun <Key> migrate(phoneNumbers: Map<Key, String>): Map<Key, String> {
-    val adaptedPhoneNumbers = phoneNumbers.map { it.key to PhoneNumber(it.value) }
+  fun <Key> migrate(phoneNumbers: Map<Key, List<String>>): Map<Key, List<String>> {
+    val adaptedPhoneNumbers = phoneNumbers.map { it.key to it.value.map { number -> PhoneNumber(number) } }
 
-    val outputPhoneNumbers: MutableMap<Key, String> = mutableMapOf()
-    adaptedPhoneNumbers.forEach { (key, givenPhoneNumber) ->
-      val cleanedPhoneNumber = cleanPhoneNumber(givenPhoneNumber)
-      if (cleanedPhoneNumber.isValidPhoneNumber() && cleanedPhoneNumber.isValidLength()) {
-        outputPhoneNumbers[key] = formatPhoneNumber(cleanedPhoneNumber).value
+    val outputPhoneNumbers: MutableMap<Key, List<String>> = mutableMapOf()
+    adaptedPhoneNumbers.forEach { (key, givenPhoneNumbers) ->
+      val cleanedPhoneNumbers = givenPhoneNumbers.map { givenPhoneNumber -> cleanPhoneNumber(givenPhoneNumber) }
+      val formattedPhoneNumbers = mutableListOf<PhoneNumber>()
+      cleanedPhoneNumbers.forEach { cleanedPhoneNumber ->
+        if (cleanedPhoneNumber.isValidPhoneNumber() && cleanedPhoneNumber.isValidLength()) {
+          formattedPhoneNumbers.add(formatPhoneNumber(cleanedPhoneNumber))
+        }
+      }
+      if (formattedPhoneNumbers.isNotEmpty()) {
+        outputPhoneNumbers[key] = formattedPhoneNumbers.map { formattedPhoneNumber -> formattedPhoneNumber.value }
       }
     }
     return outputPhoneNumbers

@@ -38,13 +38,13 @@ Then you pass those rules to `NumberingPlan` and you can start the migration:
 val ivoryCoastPlanFactory: CountryPlan = ...
 val numberingPlan = NumberingPlan(ivoryCoastPlanFactory)
 val newPhoneNumbers = numberingPlan.migrate(mapOf(
-  "userId-1" to "08060709",
-  "userId-2" to "06060709",
-  "userId-3" to "03060701",
-  "userId-4" to " 03 060 701 ",
-  "userId-5" to " 03-060-701",
-  "userId-6" to "zezae/03-060-701",
-  "userId-7" to ")'.03-060-701"
+  "userId-1" to listOf("08060709"),
+  "userId-2" to listOf("06060709"),
+  "userId-3" to listOf("03060701"),
+  "userId-4" to listOf(" 03 060 701 "),
+  "userId-5" to listOf(" 03-060-701"),
+  "userId-6" to listOf("zezae/03-060-701"),
+  "userId-7" to listOf(")'.03-060-701")
 ))
 ```
 
@@ -52,11 +52,11 @@ After the migration `newPhoneNumbers` will be equal to:
 
 ```kotlin
 mapOf(
-  "userId-1" to "002250708060709",
-  "userId-2" to "002250506060709",
-  "userId-3" to "002250103060701",
-  "userId-4" to "002250103060701",
-  "userId-5" to "002250103060701"
+  "userId-1" to listOf("002250708060709"),
+  "userId-2" to listOf("002250506060709"),
+  "userId-3" to listOf("002250103060701"),
+  "userId-4" to listOf("002250103060701"),
+  "userId-5" to listOf("002250103060701")
 )
 ```
 
@@ -67,7 +67,7 @@ Invalid phone numbers are removed.
 Download the [latest JAR](https://search.maven.org/search?q=g:com.ouattararomuald%20AND%20a:numbering) or grab via Gradle:
 
 ```groovy
-implementation 'com.ouattararomuald:numbering:0.1'
+implementation 'com.ouattararomuald:numbering:1.0.1'
 ```
 
 or Maven:
@@ -76,7 +76,7 @@ or Maven:
 <dependency>
   <groupId>com.ouattararomuald</groupId>
   <artifactId>numbering</artifactId>
-  <version>0.1</version>
+  <version>1.0.1</version>
 </dependency>
 ```
 
