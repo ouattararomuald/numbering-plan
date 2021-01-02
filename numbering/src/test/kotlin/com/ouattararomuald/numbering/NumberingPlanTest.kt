@@ -23,23 +23,23 @@ internal class NumberingPlanTest {
     numberingPlan = NumberingPlan(ivoryCoastPlanFactory)
     val formattedPhoneNumbers = numberingPlan.migrate(
       mapOf(
-        "userId-1" to "08060709",
-        "userId-2" to "06060709",
-        "userId-3" to "03060701",
-        "userId-4" to " 03 060 701 ",
-        "userId-5" to " 03-060-701",
-        "userId-6" to "zezae/03-060-701",
-        "userId-7" to ")'.03-060-701"
+        "userId-1" to listOf("08060709"),
+        "userId-2" to listOf("06060709"),
+        "userId-3" to listOf("03060701"),
+        "userId-4" to listOf(" 03 060 701 "),
+        "userId-5" to listOf(" 03-060-701"),
+        "userId-6" to listOf("zezae/03-060-701"),
+        "userId-7" to listOf(")'.03-060-701")
       )
     )
 
     assertEquals(
       mapOf(
-        "userId-1" to "002250708060709",
-        "userId-2" to "002250506060709",
-        "userId-3" to "002250103060701",
-        "userId-4" to "002250103060701",
-        "userId-5" to "002250103060701"
+        "userId-1" to listOf("002250708060709"),
+        "userId-2" to listOf("002250506060709"),
+        "userId-3" to listOf("002250103060701"),
+        "userId-4" to listOf("002250103060701"),
+        "userId-5" to listOf("002250103060701")
       ),
       formattedPhoneNumbers
     )
@@ -51,23 +51,23 @@ internal class NumberingPlanTest {
     numberingPlan = NumberingPlan(ivoryCoastPlanFactory)
     val formattedPhoneNumbers = numberingPlan.migrate(
       mapOf(
-        "userId-1" to "08060709",
-        "userId-2" to "06060709",
-        "userId-3" to "03060701",
-        "userId-4" to " 03 060 701 ",
-        "userId-5" to " 03-060-701",
-        "userId-6" to "zezae/03-060-701",
-        "userId-7" to ")'.03-060-701"
+        "userId-1" to listOf("08060709"),
+        "userId-2" to listOf("06060709"),
+        "userId-3" to listOf("03060701"),
+        "userId-4" to listOf(" 03 060 701 "),
+        "userId-5" to listOf(" 03-060-701"),
+        "userId-6" to listOf("zezae/03-060-701"),
+        "userId-7" to listOf(")'.03-060-701")
       )
     )
 
     assertEquals(
       mapOf(
-        "userId-1" to "002250806070907",
-        "userId-2" to "002250606070905",
-        "userId-3" to "002250306070101",
-        "userId-4" to "002250306070101",
-        "userId-5" to "002250306070101"
+        "userId-1" to listOf("002250806070907"),
+        "userId-2" to listOf("002250606070905"),
+        "userId-3" to listOf("002250306070101"),
+        "userId-4" to listOf("002250306070101"),
+        "userId-5" to listOf("002250306070101")
       ),
       formattedPhoneNumbers
     )
@@ -80,21 +80,21 @@ internal class NumberingPlanTest {
 
     val formattedPhoneNumbers = numberingPlan.migrate(
       mapOf(
-        "userId-1" to "08060709",
-        "userId-2" to "06060709",
-        "userId-3" to "03060701",
-        "userId-4" to " 03 060 701 ",
-        "userId-5" to " 03-060-701"
+        "userId-1" to listOf("08060709"),
+        "userId-2" to listOf("06060709"),
+        "userId-3" to listOf("03060701"),
+        "userId-4" to listOf(" 03 060 701 "),
+        "userId-5" to listOf(" 03-060-701")
       )
     )
 
     assertEquals(
       mapOf(
-        "userId-1" to "002250708060709",
-        "userId-2" to "002250506060709",
-        "userId-3" to "002250103060701",
-        "userId-4" to "002250103060701",
-        "userId-5" to "002250103060701"
+        "userId-1" to listOf("002250708060709"),
+        "userId-2" to listOf("002250506060709"),
+        "userId-3" to listOf("002250103060701"),
+        "userId-4" to listOf("002250103060701"),
+        "userId-5" to listOf("002250103060701")
       ),
       formattedPhoneNumbers
     )
@@ -107,21 +107,21 @@ internal class NumberingPlanTest {
 
     val formattedPhoneNumbers = numberingPlan.migrate(
       mapOf(
-        "userId-1" to "08060709",
-        "userId-2" to "06060709",
-        "userId-3" to "03060701",
-        "userId-4" to " 03 060 701 ",
-        "userId-5" to " 03-060-701"
+        "userId-1" to listOf("08060709"),
+        "userId-2" to listOf("06060709"),
+        "userId-3" to listOf("03060701"),
+        "userId-4" to listOf(" 03 060 701 "),
+        "userId-5" to listOf(" 03-060-701")
       )
     )
 
     assertEquals(
       mapOf(
-        "userId-1" to "002250806070907",
-        "userId-2" to "002250606070905",
-        "userId-3" to "002250306070101",
-        "userId-4" to "002250306070101",
-        "userId-5" to "002250306070101"
+        "userId-1" to listOf("002250806070907"),
+        "userId-2" to listOf("002250606070905"),
+        "userId-3" to listOf("002250306070101"),
+        "userId-4" to listOf("002250306070101"),
+        "userId-5" to listOf("002250306070101")
       ),
       formattedPhoneNumbers
     )
@@ -133,17 +133,17 @@ internal class NumberingPlanTest {
     numberingPlan = NumberingPlan(ivoryCoastPlanFactory)
     val formattedPhoneNumbers = numberingPlan.migrate(
       mapOf(
-        "userId-1" to "+22508060709",
-        "userId-2" to "+22506060709",
-        "userId-3" to "0022503060701"
+        "userId-1" to listOf("+22508060709"),
+        "userId-2" to listOf("+22506060709"),
+        "userId-3" to listOf("0022503060701")
       )
     )
 
     assertEquals(
       mapOf(
-        "userId-1" to "002250708060709",
-        "userId-2" to "002250506060709",
-        "userId-3" to "002250103060701"
+        "userId-1" to listOf("002250708060709"),
+        "userId-2" to listOf("002250506060709"),
+        "userId-3" to listOf("002250103060701")
       ),
       formattedPhoneNumbers
     )
@@ -155,17 +155,17 @@ internal class NumberingPlanTest {
     numberingPlan = NumberingPlan(ivoryCoastPlanFactory)
     val formattedPhoneNumbers = numberingPlan.migrate(
       mapOf(
-        "userId-1" to "+22508060709",
-        "userId-2" to "+22506060709",
-        "userId-3" to "0022503060701"
+        "userId-1" to listOf("+22508060709"),
+        "userId-2" to listOf("+22506060709"),
+        "userId-3" to listOf("0022503060701"),
       )
     )
 
     assertEquals(
       mapOf(
-        "userId-1" to "002250806070907",
-        "userId-2" to "002250606070905",
-        "userId-3" to "002250306070101"
+        "userId-1" to listOf("002250806070907"),
+        "userId-2" to listOf("002250606070905"),
+        "userId-3" to listOf("002250306070101")
       ),
       formattedPhoneNumbers
     )
@@ -177,15 +177,15 @@ internal class NumberingPlanTest {
     numberingPlan = NumberingPlan(ivoryCoastPlanFactory)
     val formattedPhoneNumbers = numberingPlan.migrate(
       mapOf(
-        "userId-1" to " 00 22503 060 701 ",
-        "userId-2" to " 00 225-03-060-701"
+        "userId-1" to listOf(" 00 22503 060 701 "),
+        "userId-2" to listOf(" 00 225-03-060-701")
       )
     )
 
     assertEquals(
       mapOf(
-        "userId-1" to "002250103060701",
-        "userId-2" to "002250103060701"
+        "userId-1" to listOf("002250103060701"),
+        "userId-2" to listOf("002250103060701")
       ),
       formattedPhoneNumbers
     )
@@ -197,15 +197,15 @@ internal class NumberingPlanTest {
     numberingPlan = NumberingPlan(ivoryCoastPlanFactory)
     val formattedPhoneNumbers = numberingPlan.migrate(
       mapOf(
-        "userId-1" to " 00 22503 060 701 ",
-        "userId-2" to " 00 225-03-060-701"
+        "userId-1" to listOf(" 00 22503 060 701 "),
+        "userId-2" to listOf(" 00 225-03-060-701")
       )
     )
 
     assertEquals(
       mapOf(
-        "userId-1" to "002250306070101",
-        "userId-2" to "002250306070101"
+        "userId-1" to listOf("002250306070101"),
+        "userId-2" to listOf("002250306070101")
       ),
       formattedPhoneNumbers
     )
