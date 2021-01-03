@@ -64,13 +64,15 @@ class NumberingPlan(val countryPlan: CountryPlan) {
   fun <Key> migrate(phoneNumbers: Map<Key, List<String>>): Map<Key, List<String>> {
     val adaptedPhoneNumbers = phoneNumbers.map { it.key to it.value.map { number -> PhoneNumber(number) } }
 
-    val outputPhoneNumbers: MutableMap<Key, List<String>> = mutableMapOf()
+    val outputPhoneNumbers: LinkedHashMap<Key, List<String>> = LinkedHashMap()
     adaptedPhoneNumbers.forEach { (key, givenPhoneNumbers) ->
       val cleanedPhoneNumbers = givenPhoneNumbers.map { givenPhoneNumber -> cleanPhoneNumber(givenPhoneNumber) }
       val formattedPhoneNumbers = mutableListOf<PhoneNumber>()
       cleanedPhoneNumbers.forEach { cleanedPhoneNumber ->
         if (cleanedPhoneNumber.isValidPhoneNumber() && cleanedPhoneNumber.isValidLength()) {
           formattedPhoneNumbers.add(formatPhoneNumber(cleanedPhoneNumber))
+        } else {
+          formattedPhoneNumbers.add(PhoneNumber(""))
         }
       }
       if (formattedPhoneNumbers.isNotEmpty()) {

@@ -40,10 +40,10 @@ val numberingPlan = NumberingPlan(ivoryCoastPlanFactory)
 val newPhoneNumbers = numberingPlan.migrate(mapOf(
   "userId-1" to listOf("08060709"),
   "userId-2" to listOf("06060709"),
+  "userId-6" to listOf("zezae/03-060-701", "01020304"),
   "userId-3" to listOf("03060701"),
   "userId-4" to listOf(" 03 060 701 "),
   "userId-5" to listOf(" 03-060-701"),
-  "userId-6" to listOf("zezae/03-060-701"),
   "userId-7" to listOf(")'.03-060-701")
 ))
 ```
@@ -54,13 +54,15 @@ After the migration `newPhoneNumbers` will be equal to:
 mapOf(
   "userId-1" to listOf("002250708060709"),
   "userId-2" to listOf("002250506060709"),
+  "userId-6" to listOf("", "002250101020304"),
   "userId-3" to listOf("002250103060701"),
   "userId-4" to listOf("002250103060701"),
-  "userId-5" to listOf("002250103060701")
+  "userId-5" to listOf("002250103060701"),
+  "userId-7" to listOf("")
 )
 ```
 
-Invalid phone numbers are removed.
+Invalid phone numbers are replaced by empty string.
 
 ## Download
 
@@ -86,7 +88,7 @@ Snapshots of the development version are available in [Sonatype's snapshots repo
 
 - [x] Migrates only valid phone numbers.
 - [x] Can add new digits before or after the old phone number. We decided to not handle in between insertions.
-- [x] Can only look for digits to replace at the start or the end of old phone numbers. We think this shouldn’t be a problem (generally) but as of now we decided to not handle such cases.
+- [x] Can only look for digits to replace at the start, or the end of old phone numbers. We think this shouldn’t be a problem (generally) but as of now we decided to not handle such cases.
 - [x] It is synchronous. This is a choice that will let you pick the any library you want to handle async tasks.
 
 ## Contributing
