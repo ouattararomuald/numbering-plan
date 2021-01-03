@@ -18,17 +18,17 @@ internal class NumberingPlanTest {
   }
 
   @Test
-  fun `PREFIX migration should keep only valid numbers`() {
+  fun `PREFIX migration should empty invalid numbers`() {
     val ivoryCoastPlanFactory: CountryPlan = generateCountryPlan(MigrationType.PREFIX)
     numberingPlan = NumberingPlan(ivoryCoastPlanFactory)
     val formattedPhoneNumbers = numberingPlan.migrate(
       mapOf(
         "userId-1" to listOf("08060709"),
         "userId-2" to listOf("06060709"),
+        "userId-6" to listOf("zezae/03-060-701", "01020304"),
         "userId-3" to listOf("03060701"),
         "userId-4" to listOf(" 03 060 701 "),
         "userId-5" to listOf(" 03-060-701"),
-        "userId-6" to listOf("zezae/03-060-701"),
         "userId-7" to listOf(")'.03-060-701")
       )
     )
@@ -37,16 +37,18 @@ internal class NumberingPlanTest {
       mapOf(
         "userId-1" to listOf("002250708060709"),
         "userId-2" to listOf("002250506060709"),
+        "userId-6" to listOf("", "002250101020304"),
         "userId-3" to listOf("002250103060701"),
         "userId-4" to listOf("002250103060701"),
-        "userId-5" to listOf("002250103060701")
+        "userId-5" to listOf("002250103060701"),
+        "userId-7" to listOf("")
       ),
       formattedPhoneNumbers
     )
   }
 
   @Test
-  fun `POSTFIX migration should keep only valid numbers`() {
+  fun `POSTFIX migration should empty invalid numbers`() {
     val ivoryCoastPlanFactory: CountryPlan = generateCountryPlan(MigrationType.POSTFIX)
     numberingPlan = NumberingPlan(ivoryCoastPlanFactory)
     val formattedPhoneNumbers = numberingPlan.migrate(
@@ -67,7 +69,9 @@ internal class NumberingPlanTest {
         "userId-2" to listOf("002250606070905"),
         "userId-3" to listOf("002250306070101"),
         "userId-4" to listOf("002250306070101"),
-        "userId-5" to listOf("002250306070101")
+        "userId-5" to listOf("002250306070101"),
+        "userId-6" to listOf(""),
+        "userId-7" to listOf("")
       ),
       formattedPhoneNumbers
     )
