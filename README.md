@@ -69,7 +69,7 @@ Invalid phone numbers are replaced by empty string.
 Download the [latest JAR](https://search.maven.org/search?q=g:com.ouattararomuald%20AND%20a:numbering) or grab via Gradle:
 
 ```groovy
-implementation 'com.ouattararomuald:numbering:1.0.1'
+implementation 'com.ouattararomuald:numbering:2.0.1'
 ```
 
 or Maven:
@@ -78,7 +78,7 @@ or Maven:
 <dependency>
   <groupId>com.ouattararomuald</groupId>
   <artifactId>numbering</artifactId>
-  <version>1.0.1</version>
+  <version>2.0.1</version>
 </dependency>
 ```
 
